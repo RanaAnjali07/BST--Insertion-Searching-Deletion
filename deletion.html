@@ -1,0 +1,116 @@
+<script>
+
+class Node
+{
+	constructor(item)
+	{
+		this.key = item;
+		this.left = this.right = null;
+	}
+}
+
+let root=null;
+
+
+function deleteKey(key)
+{
+	root = deleteRec(root, key);
+}
+
+function deleteRec(root,key)
+{
+	
+		if (root == null)
+			return root;
+
+
+		if (key < root.key)
+			root.left = deleteRec(root.left, key);
+		else if (key > root.key)
+			root.right = deleteRec(root.right, key);
+
+		else {
+	
+			if (root.left == null)
+				return root.right;
+			else if (root.right == null)
+				return root.left;
+
+			root.key = minValue(root.right);
+
+			root.right = deleteRec(root.right, root.key);
+		}
+
+		return root;
+}
+
+function minValue(root)
+{
+	let minv = root.key;
+		while (root.left != null)
+		{
+			minv = root.left.key;
+			root = root.left;
+		}
+		return minv;
+}
+function insert(key)
+{
+	root = insertRec(root, key);
+}
+
+
+function insertRec(root,key)
+{
+	
+		if (root == null) {
+			root = new Node(key);
+			return root;
+		}
+
+		if (key < root.key)
+			root.left = insertRec(root.left, key);
+		else if (key > root.key)
+			root.right = insertRec(root.right, key);
+
+		return root;
+}
+
+function inorder()
+{
+	inorderRec(root);
+}
+
+function inorderRec(root)
+{
+	if (root != null) {
+			inorderRec(root.left);
+			document.write(root.key + " ");
+			inorderRec(root.right);
+		}
+}
+insert(1);
+insert(2);
+insert(11);
+insert(33);
+insert(55);
+
+document.write(
+"Inorder traversal of the given tree<br>");
+inorder();
+
+document.write("<br>Delete 20<br>");
+deleteKey(11);
+document.write(
+"Inorder traversal of the modified tree<br>");
+inorder();
+
+document.write("<br>Delete 30<br>");
+deleteKey(55);
+document.write(
+"Inorder traversal of the modified tree<br>");
+inorder();
+
+
+
+</script>
